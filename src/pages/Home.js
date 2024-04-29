@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import { ForceGraph2D } from "react-force-graph";
-import myData from "./data/d.json";
+import myData from "../data/d.json";
 
 const Home = ({ user }) => {
   console.log(user);
   const forceRef = useRef(null);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [search, setSearch] = useState(null);
   useEffect(() => {
     forceRef.current.zoom(0.05);
     forceRef.current.centerAt(0, 0);
@@ -20,6 +21,21 @@ const Home = ({ user }) => {
       setSelectedNode(node);
     }
   };
+
+  const handleSearchChange = (event) => {
+    const value = event.target.value;
+    setSearch(value);
+  };
+
+  const handleSearchClick = () => {
+    const nodes = data.nodes;
+    for (let i = 0; i < nodes.length; i++) {
+      let node = nodes[i];
+      if (node.id === search) {
+        handleNodeClick(node);
+      }
+    }
+  };
   const createCompanyProfile = (node) => {
     const companyInfo = JSON.parse(node.info)[0];
     return (
@@ -31,17 +47,19 @@ const Home = ({ user }) => {
         <div className="flex flex-row gap-2 text-sm mb-3">
           {[companyInfo.sector, companyInfo.exchangeShortName].map((item) => {
             return (
-              <div className="border border-black rounded-md border-2 p-1">
+              <div
+                key={item}
+                className="border border-black rounded-md border-2 p-1">
                 {item}
               </div>
             );
           })}
         </div>
-        <div class="grid grid-cols-10 gap-4">
-          <div class="col-span-6 bg-blue-200 p-4">
+        <div className="grid grid-cols-10 gap-4">
+          <div className="col-span-6 bg-blue-200 p-4">
             {companyInfo.description}
           </div>
-          <div class="col-span-4 bg-red-200 p-4">
+          <div className="col-span-4 bg-red-200 p-4">
             {[
               node.investors,
               node.market_cap,
@@ -50,7 +68,9 @@ const Home = ({ user }) => {
             ].map((item, index) => {
               let names = ["Investors", "Market Cap", "Beta", "Avg Vol"];
               return (
-                <div className="flex flex-col items-center border border-black mb-3 rounded-md border-2 p-1">
+                <div
+                  key={index}
+                  className="flex flex-col items-center border border-black mb-3 rounded-md border-2 p-1">
                   <div>{item}</div>
                   <div>{names[index]}</div>
                 </div>
@@ -112,6 +132,15 @@ const Home = ({ user }) => {
 
   return (
     <div>
+      <div className="flex flex-row">
+        <input
+          type="text"
+          className="border border-black rounded-md border-2"
+          onChange={handleSearchChange}
+        />
+        <button onClick={handleSearchClick}>search</button>
+      </div>
+
       <ForceGraph2D
         graphData={data}
         nodeAutoColorBy="id"
