@@ -96,7 +96,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
-import addAssets from "./pages/addAssets";
+import AddAssets from "./pages/AddAssets";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import reportWebVitals from "./reportWebVitals";
 
@@ -109,7 +109,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "about", element: <About /> },
-      { path: "addAssets", element: <addAssets /> },
+      { path: "addAssets", element: <AddAssets /> },
       { path: "signin", element: <SignInPage /> },
       { path: "signup", element: <SignUpPage /> },
       {

@@ -1,7 +1,11 @@
 import { PlaidLink } from "../components/PlaidLink";
 
-const addAssets = () => {
-  return <h1>Contact Me</h1>;
+const AddAssets = () => {
+  return (
+    <div className="p-80 pt-40">
+      <PlaidLink />
+    </div>
+  );
 };
 
-export default addAssets;
+export default AddAssets;

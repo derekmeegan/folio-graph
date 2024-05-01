@@ -2,6 +2,7 @@
   "name": "portfolio-network",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://us-central1-nonprod1-svc-pd7p.cloudfunctions.net",
   "dependencies": {
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
