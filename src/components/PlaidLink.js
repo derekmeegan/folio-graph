@@ -63,8 +63,8 @@ const PlaidLink = () => {
     try {
       // Assuming your API route is '/api/auth' and it handles obtaining the access token
       // and calling the cloud function
-      const response = await fetch("/exchange_public_token_public", {
-        method: "GET",
+      const response = await fetch("/exchange_public_token_public2", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
