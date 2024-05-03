@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import supabase from "../services/supabase";
 import { useAuth } from "../components/AuthProvider.js";
-// import { PlaidLinkFunctional } from "./PlaidLinkFunctional";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");

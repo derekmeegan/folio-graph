@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePlaidLink } from "react-plaid-link";
 import { useAuth } from "../components/AuthProvider";
+import { useNavigate } from "react-router-dom";
 // // import { insertAccountsData, insert_item_data } from "./actions";
 // import { GoogleAuth } from "google-auth-library";
 
@@ -17,6 +18,8 @@ const PlaidLink = () => {
   const [linkTokenExpiry, setLinkTokenExpiry] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const createLinkToken = async () => {
       try {
@@ -99,6 +102,7 @@ const PlaidLink = () => {
       );
 
       console.log(response2);
+      navigate("/");
 
       //   if (!response.ok) {
       //     throw new Error(`Error: ${response.status}`); // Handle errors appropriately

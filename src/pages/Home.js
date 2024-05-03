@@ -1,17 +1,31 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import { ForceGraph2D } from "react-force-graph";
 import myData from "../data/d.json";
+import { useAuth } from "../components/AuthProvider.js";
+import supabase from "../services/supabase";
 
-const Home = ({ user }) => {
-  console.log(user);
+const Home = () => {
   const forceRef = useRef(null);
   const [selectedNode, setSelectedNode] = useState(null);
   const [search, setSearch] = useState(null);
+  const { user } = useAuth();
+
   useEffect(() => {
-    forceRef.current.zoom(0.05);
-    forceRef.current.centerAt(0, 0);
-    forceRef.current.d3Force("charge").strength(-40000);
-    forceRef.current.d3Force("link").distance(2000);
+    (async () => {
+      const x_cor = 0;
+      const y_cor = 0;
+      if (user) {
+        const { data, error } = await supabase
+          .from("investments")
+          .select()
+          .eq("user_uid", user.id);
+        console.log(data);
+      }
+      forceRef.current.zoom(0.05);
+      forceRef.current.centerAt(x_cor, y_cor);
+      forceRef.current.d3Force("charge").strength(-40000);
+      forceRef.current.d3Force("link").distance(2000);
+    })();
   }, []);
 
   const handleNodeClick = (node) => {
