@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import { ForceGraph2D } from "react-force-graph";
-import myData from "../data/d.json";
 import { useAuth } from "../components/AuthProvider.js";
 import supabase from "../services/supabase";
 
@@ -8,10 +7,28 @@ const Home = () => {
   const forceRef = useRef(null);
   const [selectedNode, setSelectedNode] = useState(null);
   const [search, setSearch] = useState(null);
+  const [data, setData] = useState({ nodes: [], links: [] });
   const { user } = useAuth();
 
   useEffect(() => {
     (async () => {
+      const { data: nodes, error: nodeError } = await supabase
+        .from("nodes")
+        .select();
+      const { data: links, error: linkError } = await supabase
+        .from("links")
+        .select();
+
+      if (nodeError) {
+        console.error("Node Error:", nodeError);
+      }
+      if (linkError) {
+        console.error("Link Error:", linkError);
+      }
+      console.log(nodes);
+      console.log(links);
+
+      setData({ nodes, links });
       const x_cor = 0;
       const y_cor = 0;
       if (user) {
@@ -42,7 +59,7 @@ const Home = () => {
   };
 
   const handleSearchClick = () => {
-    const nodes = data.nodes;
+    const nodes = graphData.nodes;
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i];
       if (node.id === search) {
@@ -140,9 +157,9 @@ const Home = () => {
     );
   };
 
-  const data = useMemo(() => {
-    return myData;
-  }, []);
+  const graphData = useMemo(() => {
+    return data;
+  }, [data.nodes]);
 
   return (
     <div>
@@ -156,7 +173,7 @@ const Home = () => {
       </div>
 
       <ForceGraph2D
-        graphData={data}
+        graphData={graphData}
         nodeAutoColorBy="id"
         ref={forceRef}
         backgroundColor="#cfd9df"
