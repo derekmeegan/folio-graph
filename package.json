@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "d3": "^7.9.0",
+    "dotenv": "^16.4.5",
     "google-auth-library": "^9.9.0",
     "https-browserify": "^1.0.0",
     "os-browserify": "^0.3.0",
