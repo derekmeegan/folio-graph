@@ -8,6 +8,7 @@ const Home = () => {
   const [selectedNode, setSelectedNode] = useState(null);
   const [search, setSearch] = useState(null);
   const [data, setData] = useState({ nodes: [], links: [] });
+  const [divVisible, setDivVisible] = useState("none");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -50,6 +51,7 @@ const Home = () => {
       forceRef.current.centerAt(node.x, node.y, 500);
       forceRef.current.zoom(0.25, 500);
       setSelectedNode(node);
+      setDivVisible("block");
     }
   };
 
@@ -67,13 +69,17 @@ const Home = () => {
       }
     }
   };
+
   const createCompanyProfile = (node) => {
     const companyInfo = JSON.parse(node.info)[0];
     return (
       <div className="pt-3 pb-3 pl-2 pr-2">
-        <div className="flex flex-row gap-3 mb-3">
+        <div className="flex flex-row gap-3 mb-3 w-full">
           <img src={companyInfo.image} alt={node.id} width="40" height="40" />
           <p style={{ fontSize: "24px" }}>{companyInfo.Company}</p>
+          <button className="ml-40" onClick={() => setDivVisible("none")}>
+            x
+          </button>
         </div>
         <div className="flex flex-row gap-2 text-sm mb-3">
           {[companyInfo.sector, companyInfo.exchangeShortName].map((item) => {
@@ -115,11 +121,17 @@ const Home = () => {
   };
 
   const createPortfolioProfile = (node, user) => {
+    if (!node) return;
     const portfolio = JSON.parse(node.portfolio);
     return (
       <div className="pt-3 pb-3 pl-2 pr-2">
-        <div style={{ fontSize: "24px" }} className="mb-2">
-          {node.id}
+        <div className="flex flex-row gap-3 mb-3 w-full">
+          <div style={{ fontSize: "24px" }} className="mb-2">
+            {node.id}
+          </div>
+          <button className="ml-60" onClick={() => setDivVisible("none")}>
+            x
+          </button>
         </div>
         <table className="stockTable">
           <thead>
@@ -204,25 +216,24 @@ const Home = () => {
           ctx.fill();
         }}
       />
-      {selectedNode != null && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: "20px",
-            right: "20px",
-            padding: "10px",
-            background: "white",
-            border: "1px solid black",
-            borderRadius: "5px",
-            maxWidth: "450px",
-            overflowY: "scroll",
-            maxHeight: "450px",
-          }}>
-          {selectedNode.group === "holding"
-            ? createCompanyProfile(selectedNode)
-            : createPortfolioProfile(selectedNode, user)}
-        </div>
-      )}
+      <div
+        style={{
+          position: "absolute",
+          bottom: "20px",
+          right: "20px",
+          padding: "10px",
+          background: "white",
+          border: "1px solid black",
+          borderRadius: "5px",
+          maxWidth: "450px",
+          overflowY: "scroll",
+          maxHeight: "450px",
+          display: divVisible,
+        }}>
+        {selectedNode && selectedNode.group === "holding"
+          ? createCompanyProfile(selectedNode)
+          : createPortfolioProfile(selectedNode, user)}
+      </div>
     </div>
   );
 };
