@@ -120,6 +120,9 @@ const Home = () => {
     );
   };
 
+  // i am making this commit because i was unable to work on the side proj today because i attended a tech conference
+  // but i still would like to keep my contribution streak alive, so dont judge if you clicked on this commmit randomly
+  // to assess my day to day productivity.
   const createPortfolioProfile = (node, user) => {
     if (!node) return;
     const portfolio = JSON.parse(node.portfolio);
