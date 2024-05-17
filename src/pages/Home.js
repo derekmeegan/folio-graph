@@ -26,25 +26,15 @@ const Home = () => {
       if (linkError) {
         console.error("Link Error:", linkError);
       }
-      console.log(nodes);
-      console.log(links);
 
       setData({ nodes, links });
-      const x_cor = 0;
-      const y_cor = 0;
-      if (user) {
-        const { data, error } = await supabase
-          .from("investments")
-          .select()
-          .eq("user_uid", user.id);
-        console.log(data);
-      }
-      forceRef.current.zoom(0.05);
-      forceRef.current.centerAt(x_cor, y_cor);
+
       forceRef.current.d3Force("charge").strength(-40000);
       forceRef.current.d3Force("link").distance(2000);
+      forceRef.current.zoom(0.05);
+      forceRef.current.centerAt(0, 0);
     })();
-  }, []);
+  }, [user]);
 
   const handleNodeClick = (node) => {
     if (forceRef.current) {
@@ -60,14 +50,26 @@ const Home = () => {
     setSearch(value);
   };
 
-  const handleSearchClick = () => {
+  const identifyNodeByID = (nodeId) => {
     const nodes = graphData.nodes;
     for (let i = 0; i < nodes.length; i++) {
       let node = nodes[i];
-      if (node.id === search) {
-        handleNodeClick(node);
+      if (node.id === nodeId) {
+        return node;
       }
     }
+  };
+
+  const handleSearchClick = () => {
+    const node = identifyNodeByID(search);
+    if (node) {
+      handleNodeClick(node);
+    }
+  };
+
+  const handleMyPortfolio = () => {
+    const node = identifyNodeByID(user.id);
+    handleNodeClick(node);
   };
 
   const createCompanyProfile = (node) => {
@@ -120,9 +122,6 @@ const Home = () => {
     );
   };
 
-  // i am making this commit because i was unable to work on the side proj today because i attended a tech conference
-  // but i still would like to keep my contribution streak alive, so dont judge if you clicked on this commmit randomly
-  // to assess my day to day productivity.
   const createPortfolioProfile = (node, user) => {
     if (!node) return;
     const portfolio = JSON.parse(node.portfolio);
@@ -141,14 +140,15 @@ const Home = () => {
             <tr>
               <th>Company</th>
               <th>Symbol</th>
-              {user ? (
+              {/* {user ? (
                 <>
                   <th>Shares</th>
                   <th>Value</th>
                 </>
               ) : (
                 <th>Allocation</th>
-              )}
+              )} */}
+              <th>Allocation</th>
             </tr>
           </thead>
           <tbody>
@@ -156,14 +156,15 @@ const Home = () => {
               <tr key={index}>
                 <td>{stock.Company}</td>
                 <td>{stock.Symbol}</td>
-                {user ? (
+                <td>{(stock.port_allocation * 100).toFixed(2)}%</td>
+                {/* {user ? (
                   <>
                     <td>{stock.shares.toFixed(4)}</td>
                     <td>${stock.value.toFixed(2)}</td>
                   </>
                 ) : (
                   <td>{(stock.port_allocation * 100).toFixed(2)}%</td>
-                )}
+                )} */}
               </tr>
             ))}
           </tbody>
@@ -174,7 +175,7 @@ const Home = () => {
 
   const graphData = useMemo(() => {
     return data;
-  }, [data.nodes]);
+  }, [data]);
 
   return (
     <div>
@@ -185,6 +186,7 @@ const Home = () => {
           onChange={handleSearchChange}
         />
         <button onClick={handleSearchClick}>search</button>
+        {user && <button onClick={handleMyPortfolio}>My Port</button>}
       </div>
 
       <ForceGraph2D
@@ -213,7 +215,7 @@ const Home = () => {
           ctx.fillStyle = color;
           const size = node.market_cap
             ? (node.market_cap / 10000000000) * 2.5
-            : 50; // Size based on market cap, default size is 5
+            : 250; // Size based on market cap, default size is 5
           ctx.beginPath();
           ctx.arc(node.x, node.y, size, 0, Math.PI * 2);
           ctx.fill();

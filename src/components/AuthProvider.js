@@ -49,13 +49,17 @@ const AuthProvider = ({ children }) => {
     return { error };
   };
 
-  const signUp = async ({ username, password }) => {
+  const signUp = async ({ email, password, username }) => {
+    console.log(username);
     const { user, error } = await supabase.auth.signUp({
-      email: username,
-      password: password,
+      email,
+      password,
+      options: {
+        data: {
+          username,
+        },
+      },
     });
-    console.log("the user below is the user");
-    console.log(user);
     return { user, error };
   };
 
@@ -65,7 +69,7 @@ const AuthProvider = ({ children }) => {
         user,
         signIn,
         signOut,
-        signUp: (data) => supabase.auth.signUp(data),
+        signUp,
       }}>
       {!loading ? children : `<div>Loading...</div>`}
     </AuthContext.Provider>
