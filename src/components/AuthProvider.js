@@ -11,7 +11,7 @@ export const useAuth = () => {
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [session, setSession] = useState(null);
+  const [, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -70,7 +70,8 @@ const AuthProvider = ({ children }) => {
         signIn,
         signOut,
         signUp,
-      }}>
+      }}
+    >
       {!loading ? children : `<div>Loading...</div>`}
     </AuthContext.Provider>
   );

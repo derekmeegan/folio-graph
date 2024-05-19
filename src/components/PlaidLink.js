@@ -16,7 +16,7 @@ const is_past_date = (dateString) => {
 const PlaidLink = () => {
   const [token, setLinkToken] = useState(null);
   const [linkTokenExpiry, setLinkTokenExpiry] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  // const [accessToken, setAccessToken] = useState(null);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ const PlaidLink = () => {
     if (!token || is_past_date(linkTokenExpiry)) {
       createLinkToken();
     }
-  }, []);
+  }, [linkTokenExpiry, token]);
 
   const onSuccess = async (publicToken, metadata) => {
     console.log(publicToken, metadata);
@@ -151,7 +151,8 @@ const PlaidLink = () => {
         cursor: "pointer",
         backgroundColor: !ready ? "gray" : "green", // This line changes the background color
         color: "white", // Set text color to white for better readability
-      }}>
+      }}
+    >
       Link your bank account
     </button>
   );
