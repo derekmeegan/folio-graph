@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useState, useMemo } from "react";
 import { ForceGraph2D } from "react-force-graph";
 import { useAuth } from "../components/AuthProvider.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import supabase from "../services/supabase";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import "font-awesome/css/font-awesome.min.css";
 
 const Home = () => {
   const forceRef = useRef(null);
@@ -179,13 +182,26 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex flex-row">
+      <div
+        style={{
+          height: "28px",
+          width: "100px",
+          zIndex: 2,
+          top: 32,
+          left: 90,
+        }}
+        className="fixed left-40 flex flex-row">
         <input
           type="text"
           className="border border-black rounded-md border-2"
           onChange={handleSearchChange}
         />
-        <button onClick={handleSearchClick}>search</button>
+        <button onClick={handleSearchClick}>
+          <FontAwesomeIcon
+            style={{ color: "white" }}
+            icon={faMagnifyingGlass}
+          />
+        </button>
         {user && <button onClick={handleMyPortfolio}>My Port</button>}
       </div>
 
