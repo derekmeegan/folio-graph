@@ -1,5 +1,7 @@
 # Folio Social
 
+![alt text](./screenshot.png?raw=true)
+
 Visualizing how you are connected to other investors. Folio Social is a React application that demonstrates how people relate to each other through common investments. The goal of this app is to bring to life the idea that the financial world is inherently social. It leverages the Plaid API to seamlessly capture relevant investment information and display your portfolio in an interconnected web.
 
 ## Table of Contents
