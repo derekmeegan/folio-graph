@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import supabase from "../services/supabase";
-import debounce from "lodash.debounce";
+import debounce from "lodash/debounce";
 import { useAuth } from "../components/AuthProvider.js";
+import userExists from "../utilities/supabase";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
@@ -16,29 +16,14 @@ const SignUpPage = () => {
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(true);
 
   const checkUsernameAvailability = useCallback(
-    () =>
-      (debounce(async (username) => {
-        if (username.length < 3) {
-          setIsUsernameAvailable(true);
-          return;
-        }
-        try {
-          let { data: users } = await supabase
-            .from("profiles")
-            .select("username")
-            .like("username", `${username}%`);
-
-          const usernameDoesNotExist =
-            users
-              .map((user) => user.username)
-              .filter((name) => username === name).length === 0;
-          setIsUsernameAvailable(usernameDoesNotExist);
-        } catch (error) {
-          console.error("Error checking username availability", error);
-          setIsUsernameAvailable(true);
-        }
-      }),
-      500)(), // This IIFE returns the debounced function
+    debounce(async (username) => {
+      if (username.length < 3) {
+        setIsUsernameAvailable(true);
+        return;
+      }
+      const exists = await userExists(username);
+      setIsUsernameAvailable(!exists);
+    }, 500), // This returns the debounced function directly
     []
   );
 
@@ -104,8 +89,7 @@ const SignUpPage = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center"
-      style={{ background: "linear-gradient(to right, #5FE78F, #0A6136)" }}
-    >
+      style={{ background: "linear-gradient(to right, #5FE78F, #4ABF78)" }}>
       <div className="bg-white shadow-md rounded-lg overflow-hidden lg:max-w-lg w-full md:flex">
         <div className="p-8">
           <h2 className="text-2xl font-bold text-center">Welcome</h2>
@@ -127,8 +111,7 @@ const SignUpPage = () => {
               <button
                 type="button"
                 onClick={handleRandomUsername}
-                className="ml-2 px-4 py-2 bg-[#5FE78F] text-xs text-white rounded-lg hover:bg-[#4CAC6F] focus:outline-none focus:ring-2 focus:ring-[#5FE78F]"
-              >
+                className="ml-2 px-4 py-2 bg-[#1D1D1F] text-xs text-white rounded-lg hover:bg-[#4CAC6F] focus:outline-none focus:ring-2 focus:ring-[#1D1D1F]">
                 Random Username
               </button>
             </div>
@@ -151,7 +134,6 @@ const SignUpPage = () => {
               <input
                 type="password"
                 placeholder="Password"
-                // onChange={(e) => setPassword(e.target.value)}
                 value={password}
                 onChange={handlePasswordChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5FE78F]"
@@ -182,16 +164,14 @@ const SignUpPage = () => {
                   <a
                     href="#"
                     className="hover:underline"
-                    style={{ color: "#5FE78F" }}
-                  >
+                    style={{ color: "#5FE78F" }}>
                     Terms of Use
                   </a>{" "}
                   &{" "}
                   <a
                     href="#"
                     className="hover:underline"
-                    style={{ color: "#5FE78F" }}
-                  >
+                    style={{ color: "#5FE78F" }}>
                     {" "}
                     Privacy Policy
                   </a>
@@ -200,8 +180,7 @@ const SignUpPage = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-[#1D1D1F] text-white py-2 rounded-lg hover:bg-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#5FE78F]"
-            >
+              className="w-full bg-[#1D1D1F] text-white py-2 rounded-lg hover:bg-[#4CAC6F] focus:outline-none focus:ring-2 focus:ring-[#5FE78F]">
               Register Now
             </button>
             {error && <p className="text-red-600 text-sm mt-4">{error}</p>}

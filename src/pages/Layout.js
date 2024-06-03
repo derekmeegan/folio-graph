@@ -4,9 +4,7 @@ import { React } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDiagramProject,
-  // faInfoCircle,
   faSignInAlt,
-  faUserPlus,
   faUser,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
@@ -53,11 +51,6 @@ const Layout = () => {
             component={<Link to="/" />}>
             Home
           </MenuItem>
-          {/* <MenuItem
-            icon={<FontAwesomeIcon icon={faInfoCircle} />}
-            component={<Link to="/about" />}>
-            About
-          </MenuItem> */}
           {user ? (
             <MenuItem
               icon={<FontAwesomeIcon icon={faUser} />}
@@ -70,11 +63,6 @@ const Layout = () => {
                 icon={<FontAwesomeIcon icon={faSignInAlt} />}
                 component={<Link to="/signin" />}>
                 Sign In
-              </MenuItem>
-              <MenuItem
-                icon={<FontAwesomeIcon icon={faUserPlus} />}
-                component={<Link to="/signup" />}>
-                Sign Up
               </MenuItem>
             </>
           )}

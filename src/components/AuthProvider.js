@@ -29,14 +29,22 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   // In case we want to manually trigger a signIn (instead of using Auth UI)
-  const signIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { skipBrowserRedirect: false },
+  // const signIn = async () => {
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: { skipBrowserRedirect: false },
+  //   });
+  //   console.log("data: ", data);
+  //   console.log("error: ", error);
+  //   return { data, error };
+  // };
+
+  const signIn = async ({ email, password }) => {
+    const { user, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
-    console.log("data: ", data);
-    console.log("error: ", error);
-    return { data, error };
+    return { user, error };
   };
 
   const signOut = async () => {
@@ -50,13 +58,13 @@ const AuthProvider = ({ children }) => {
   };
 
   const signUp = async ({ email, password, username }) => {
-    console.log(username);
     const { user, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
           username,
+          email,
         },
       },
     });
@@ -70,8 +78,7 @@ const AuthProvider = ({ children }) => {
         signIn,
         signOut,
         signUp,
-      }}
-    >
+      }}>
       {!loading ? children : `<div>Loading...</div>`}
     </AuthContext.Provider>
   );

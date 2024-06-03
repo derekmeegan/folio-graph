@@ -35,6 +35,7 @@
     "react-plaid-link": "^3.5.1",
     "react-pro-sidebar": "^1.1.0",
     "react-scripts": "5.0.1",
+    "react-tooltip": "^5.26.4",
     "stream-browserify": "^3.0.0",
     "url": "^0.11.3",
     "web-vitals": "^2.1.4"

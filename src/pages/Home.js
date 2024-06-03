@@ -77,13 +77,6 @@ const Home = () => {
     }
   };
 
-  // const handleInputChange = (event) => {
-  //   const value = event.target.value;
-  //   setSearch(value);
-
-  //   handleSearchChange(event);
-  // };
-
   const identifyNodeByID = (nodeId) => {
     const nodes = graphData.nodes;
     for (let i = 0; i < nodes.length; i++) {
@@ -104,7 +97,8 @@ const Home = () => {
 
   const handleMyPortfolio = () => {
     const node = identifyNodeByID(user.id);
-    handleNodeClick(node);
+    console.log(node);
+    node ? handleNodeClick(node) : handleZoomOut();
   };
 
   const createCompanyProfile = (node) => {
@@ -333,53 +327,6 @@ const Home = () => {
         </button>
       </div>
 
-      {/* <ForceGraph2D
-        graphData={graphData}
-        nodeAutoColorBy="id"
-        ref={forceRef}
-        backgroundColor="#FEFEFE"
-        onNodeClick={handleNodeClick}
-        nodeCanvasObject={(node, ctx, globalScale) => {
-          const label = node.id;
-          const fontSize = 12 / globalScale;
-          const size = node.market_cap
-            ? (node.market_cap / 10000000000) * 12
-            : 400; // Size based on market cap, default size is 5
-
-          // Draw node
-          ctx.fillStyle = node.color || "rgba(60, 60, 60, 0.9)";
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, size, 0, 2 * Math.PI, false);
-          ctx.fill();
-
-          // Add shadow
-          ctx.shadowColor = "rgba(0, 0, 0, 0.1)";
-          ctx.shadowBlur = 6;
-          ctx.shadowOffsetX = 0;
-          ctx.shadowOffsetY = 2;
-
-          // Draw node border
-          ctx.lineWidth = 1 / globalScale;
-          ctx.strokeStyle = "#FFF";
-          ctx.stroke();
-
-          // Draw text
-          ctx.font = `${fontSize}px 'Helvetica Neue', Arial, sans-serif`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillStyle = "#FFF"; // Text color
-          ctx.fillText(label, node.x, node.y);
-        }}
-        nodePointerAreaPaint={(node, color, ctx) => {
-          ctx.fillStyle = color;
-          const size = node.market_cap
-            ? (node.market_cap / 10000000000) * 2.5
-            : 250; // Size based on market cap, default size is 5
-          ctx.beginPath();
-          ctx.arc(node.x, node.y, size, 0, Math.PI * 2);
-          ctx.fill();
-        }}
-      /> */}
       <ForceGraph2D
         graphData={graphData}
         nodeAutoColorBy="id"
