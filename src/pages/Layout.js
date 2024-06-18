@@ -6,6 +6,7 @@ import {
   faDiagramProject,
   faSignInAlt,
   faUser,
+  faWallet,
   faSignOutAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import supabase from "../services/supabase";
@@ -53,7 +54,7 @@ const Layout = () => {
           </MenuItem>
           {user ? (
             <MenuItem
-              icon={<FontAwesomeIcon icon={faUser} />}
+              icon={<FontAwesomeIcon icon={faWallet} />}
               component={<Link to="/account" />}>
               Account
             </MenuItem>
@@ -68,6 +69,13 @@ const Layout = () => {
           )}
           {user && (
             <MenuItem
+              icon={<FontAwesomeIcon icon={faUser} />}
+              component={<Link to="/profile" />}>
+              Logout
+            </MenuItem>
+          )}
+          {user && (
+            <MenuItem
               icon={<FontAwesomeIcon icon={faSignOutAlt} />}
               onClick={signOut}>
               Logout
@@ -78,7 +86,6 @@ const Layout = () => {
       <div
         style={{
           marginLeft: "80px",
-          // transition: "margin-left 0.3s",
         }}>
         <Outlet />
       </div>
