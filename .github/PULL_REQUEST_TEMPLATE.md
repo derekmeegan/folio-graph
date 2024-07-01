@@ -1,3 +1,10 @@
+## Choose a Template:
+
+- [Bug Fix Template](./ISSUE_TEMPLATES/bug_fix_template.md)
+- [Feature Template](./ISSUE_TEMPLATES/feature_template.md)
+- [Refactor Template](./ISSUE_TEMPLATES/refactor_template.md)
+- [Default Template](./ISSUE_TEMPLATES.md)
+
 ## Description
 
 Please include a summary of the change and which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
