@@ -1,4 +1,3 @@
-// App.js
 import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -20,6 +19,7 @@ const getRandomVibrantColor = () => {
 const Node = ({ position, velocity }) => {
   const meshRef = useRef();
   const [vel, setVel] = useState(velocity);
+
   const color = getRandomVibrantColor();
 
   useFrame(({ clock }) => {
@@ -111,23 +111,172 @@ const AnimationBackground = ({ nodeCount }) => (
   </Canvas>
 );
 
-const Landing = () => (
-  <div style={{ position: "relative", height: "100vh", width: "100vw" }}>
-    <AnimationBackground nodeCount={300} />
-    <div
-      style={{
-        position: "absolute",
-        zIndex: 1,
-        color: "#fff",
-        padding: "20px",
-      }}
-    >
-      <h1>Welcome to Our Service</h1>
-      <p>Subscribe to get updates</p>
-      <input type="email" placeholder="Enter your email" />
-      <button>Subscribe</button>
-    </div>
-  </div>
+const SignUpForm = (props) => (
+  <>
+    <form>
+      <div>
+        <label>
+          Email:
+          <input
+            type="email"
+            placeholder="jwebber@example.com"
+            value={props.userEmail}
+            onChange={props.handleEmailChange}
+            style={{ marginLeft: "35px", border: "1px solid black" }}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Password:{" "}
+          <input
+            type="password"
+            placeholder="enter password here"
+            value={props.userPassword}
+            onChange={props.handlePasswordChange}
+            style={{ border: "1px solid black" }}
+          />
+        </label>
+      </div>
+      <br />
+      <div>
+        <button
+          style={{ background: "#999", padding: "9px" }}
+          onClick={() => {
+            /* TODO: Implement me */
+          }}
+        >
+          Sign up
+        </button>
+      </div>
+      <br />
+      <p>
+        Already a user?{" "}
+        <span
+          onClick={() => props.setIsARegisteredUser(true)}
+          style={{ textDecoration: "underline" }}
+        >
+          Sign In
+        </span>
+      </p>
+    </form>
+  </>
 );
+
+const SignInForm = (props) => (
+  <form>
+    <div>
+      <label>
+        Email:
+        <input
+          type="email"
+          name="userEmail"
+          placeholder="jwebber@example.com"
+          value={props.userEmail}
+          onChange={props.handleEmailChange}
+          style={{ marginLeft: "35px", border: "1px solid black" }}
+        />
+      </label>
+    </div>
+    <div>
+      <label>
+        Password:{" "}
+        <input
+          type="password"
+          placeholder="enter password here"
+          value={props.userPassword}
+          onChange={props.handlePasswordChange}
+          style={{ border: "1px solid black" }}
+        />
+      </label>
+    </div>
+    <br />
+    <div>
+      <button
+        style={{ background: "#999", padding: "9px" }}
+        onClick={(event) => {
+          event.preventDefault();
+          props.setUserEmail("");
+          // TODO: Lookup user in database and redirect them to home page (to the graph)
+          // ? Maybe indicate that sign in was successful with a toast...
+        }}
+      >
+        Sign in
+      </button>
+    </div>
+    <br />
+    <p>
+      Not registered?{" "}
+      <span
+        onClick={() => props.setIsARegisteredUser(false)}
+        style={{ textDecoration: "underline" }}
+      >
+        Sign up instead
+      </span>
+    </p>
+  </form>
+);
+
+const OnboardingForm = (props) => {
+  const [isARegisteredUser, setIsARegisteredUser] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState("");
+  const [userPassword, setUserPassword] = React.useState("");
+
+  const handleEmailChange = (event) => setUserEmail(event.target.value);
+  const handlePasswordChange = (event) => setUserPassword(event.target.value);
+
+  return isARegisteredUser ? (
+    <SignInForm
+      setIsARegisteredUser={setIsARegisteredUser}
+      userEmail={userEmail}
+      setUserEmail={setUserEmail}
+      handleEmailChange={handleEmailChange}
+      password={userPassword}
+      setPassword={setUserPassword}
+      handlePasswordChange={handlePasswordChange}
+    />
+  ) : (
+    <SignUpForm
+      setIsARegisteredUser={setIsARegisteredUser}
+      userEmail={userEmail}
+      setUserEmail={setUserEmail}
+      handleEmailChange={handleEmailChange}
+      password={userPassword}
+      setPassword={setUserPassword}
+      handlePasswordChange={handlePasswordChange}
+    />
+  );
+};
+
+const Landing = () => {
+  return (
+    <div style={{ position: "relative", height: "100vh", width: "100vw" }}>
+      <AnimationBackground nodeCount={300} />
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "65px",
+          fontFamily: "monospace, fantasy",
+        }}
+      >
+        Welcome to Folio Graph
+      </h1>
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          color: "#33ff33",
+          padding: "20px",
+          backgroundColor: "gray",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <OnboardingForm />
+      </div>
+    </div>
+  );
+};
 
 export default Landing;
