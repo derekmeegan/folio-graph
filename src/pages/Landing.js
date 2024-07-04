@@ -3,30 +3,37 @@ import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-// import { Vector3 } from "three";
+import * as THREE from "three";
 
 // Helper function to get a random velocity
 const getRandomVelocity = () => (Math.random() - 0.5) * 0.2;
 
-// Helper function to get a random color
-const getRandomColor = () =>
-  `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+// Helper function to get a random vibrant color
+const getRandomVibrantColor = () => {
+  const hue = Math.random() * 360;
+  const saturation = Math.random() * 50 + 50; // 50-100%
+  const lightness = Math.random() * 20 + 50; // 50-70%
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+};
 
 // Create a Node component that bounces off the walls
-const Node = ({ position, velocity, color }) => {
+const Node = ({ position, velocity }) => {
   const meshRef = useRef();
   const [vel, setVel] = useState(velocity);
+  const color = getRandomVibrantColor();
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     const mesh = meshRef.current;
+
+    // Update position based on velocity
     mesh.position.x += vel[0];
     mesh.position.y += vel[1];
 
     // Define boundaries
-    const halfWidth = window.innerWidth / 180;
-    const halfHeight = window.innerHeight / 180;
+    const halfWidth = window.innerWidth / 2 - 1;
+    const halfHeight = window.innerHeight / 2 - 1;
 
-    // Check for collision with the edges and reverse velocity
+    // Check for collision with the walls and reverse velocity
     if (mesh.position.x <= -halfWidth || mesh.position.x >= halfWidth) {
       setVel([vel[0] * -1, vel[1]]);
     }
@@ -37,7 +44,7 @@ const Node = ({ position, velocity, color }) => {
 
   return (
     <mesh ref={meshRef} position={position}>
-      <sphereGeometry args={[1, 32, 32]} />
+      <sphereGeometry args={[0.1, 30, 30]} />
       <meshStandardMaterial color={color} />
     </mesh>
   );
@@ -49,9 +56,8 @@ const NodeGraph = ({ nodeCount }) => {
 
   useEffect(() => {
     const newNodes = Array.from({ length: nodeCount }, () => ({
-      position: [Math.random() * 30 - 5, Math.random() * 30 - 5, 0],
+      position: [Math.random() * 30 - 5, Math.random() * 30 - 8, 0],
       velocity: [getRandomVelocity(), getRandomVelocity()],
-      color: getRandomColor(),
     }));
     setNodes(newNodes);
   }, [nodeCount]);
@@ -61,9 +67,8 @@ const NodeGraph = ({ nodeCount }) => {
       {nodes.map((node, idx) => (
         <Node
           key={idx}
-          position={node.position}
-          velocity={node.velocity}
-          color={node.color}
+          position={nodes[idx].position}
+          velocity={nodes[idx].velocity}
         />
       ))}
     </>
@@ -108,7 +113,7 @@ const AnimationBackground = ({ nodeCount }) => (
 
 const Landing = () => (
   <div style={{ position: "relative", height: "100vh", width: "100vw" }}>
-    <AnimationBackground nodeCount={12} />
+    <AnimationBackground nodeCount={300} />
     <div
       style={{
         position: "absolute",
