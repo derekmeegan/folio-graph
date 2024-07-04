@@ -23,8 +23,8 @@ const Node = ({ position, velocity, color }) => {
     mesh.position.y += vel[1];
 
     // Define boundaries
-    const halfWidth = window.innerWidth / 180;
-    const halfHeight = window.innerHeight / 180;
+    const halfWidth = window.innerWidth / 360;
+    const halfHeight = window.innerHeight / 360;
 
     // Check for collision with the edges and reverse velocity
     if (mesh.position.x <= -halfWidth || mesh.position.x >= halfWidth) {
@@ -96,7 +96,8 @@ const AnimationBackground = ({ nodeCount }) => (
       left: 0,
       height: "100%",
       width: "100%",
-    }}>
+    }}
+  >
     <ambientLight intensity={0.5} />
     <pointLight position={[10, 10, 10]} />
     <NodeGraph nodeCount={nodeCount} />
@@ -114,7 +115,8 @@ const Landing = () => (
         zIndex: 1,
         color: "#fff",
         padding: "20px",
-      }}>
+      }}
+    >
       <h1>Welcome to Our Service</h1>
       <p>Subscribe to get updates</p>
       <input type="email" placeholder="Enter your email" />
