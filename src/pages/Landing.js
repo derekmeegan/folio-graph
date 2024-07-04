@@ -141,10 +141,14 @@ const SignUpForm = (props) => (
       <br />
       <div>
         <button
-          style={{ background: "#999", padding: "9px" }}
-          onClick={() => {
-            /* TODO: Implement me */
+          role="submit"
+          onClick={(event) => {
+            event.preventDefault();
+            props.setUserEmail("");
+            // TODO: Lookup user in database and redirect them to home page (to the graph)
+            // ? Maybe indicate that sign in was successful with a toast...
           }}
+          style={{ background: "#999", padding: "9px" }}
         >
           Sign up
         </button>
@@ -193,13 +197,14 @@ const SignInForm = (props) => (
     <br />
     <div>
       <button
-        style={{ background: "#999", padding: "9px" }}
+        role="submit"
         onClick={(event) => {
           event.preventDefault();
           props.setUserEmail("");
           // TODO: Lookup user in database and redirect them to home page (to the graph)
           // ? Maybe indicate that sign in was successful with a toast...
         }}
+        style={{ background: "#999", padding: "9px" }}
       >
         Sign in
       </button>
