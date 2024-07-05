@@ -10397,6 +10397,11 @@ requires-port@^1.0.0:
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
 
+rescript@^11.1.2:
+  version "11.1.2"
+  resolved "https://registry.npmjs.org/rescript/-/rescript-11.1.2.tgz"
+  integrity sha512-sA4EgPoPbwGM/+R8xkZJzgr1gvnA1E/Gxjg6DXSG8csl8ttrSBMwHYK4FtGF0K9Ej5NRgsvIi7p/v/dtLB/cjg==
+
 resolve-cwd@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/resolve-cwd/-/resolve-cwd-3.0.0.tgz"
