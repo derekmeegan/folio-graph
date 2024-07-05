@@ -14,6 +14,7 @@
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
     "@react-three/drei": "^9.108.1",
+    "@rescript/react": "^0.12.2",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/supabase-js": "^2.42.7",
@@ -49,6 +50,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "re::build-watch": "rescript build -w",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
