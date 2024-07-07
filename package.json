@@ -13,6 +13,8 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^5.15.18",
     "@mui/material": "^5.15.18",
+    "@react-three/drei": "^9.108.1",
+    "@rescript/react": "^0.12.2",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@supabase/supabase-js": "^2.42.7",
@@ -23,6 +25,7 @@
     "chart.js": "^4.4.3",
     "d3": "^7.9.0",
     "dotenv": "^16.4.5",
+    "drei": "^2.2.21",
     "font-awesome": "^4.7.0",
     "google-auth-library": "^9.9.0",
     "https-browserify": "^1.0.0",
@@ -37,14 +40,17 @@
     "react-plaid-link": "^3.5.1",
     "react-pro-sidebar": "^1.1.0",
     "react-scripts": "5.0.1",
+    "react-three-fiber": "^6.0.13",
     "react-tooltip": "^5.26.4",
     "stream-browserify": "^3.0.0",
+    "three": "^0.166.1",
     "url": "^0.11.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "re::build-watch": "rescript build -w",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -72,6 +78,7 @@
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
     "react-router-dom": "^6.23.0",
+    "rescript": "^11.1.2",
     "tailwindcss": "^3.4.3"
   }
 }

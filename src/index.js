@@ -10,6 +10,7 @@ import SignUpPage from "./pages/SignUpPage";
 import AddAssets from "./pages/AddAssets";
 import Account from "./pages/Account";
 import Profile from "./pages/Profile";
+import Landing from "./pages/Landing";
 import EmailConfirmation from "./pages/EmailConfirmation";
 import reportWebVitals from "./reportWebVitals";
 
@@ -18,9 +19,13 @@ import AuthProvider from "./components/AuthProvider.js";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Landing />,
+  },
+  {
+    path: "/",
     element: <Layout />,
     children: [
-      { path: "/", element: <Home /> },
+      { path: "/home", element: <Home /> },
       { path: "about", element: <About /> },
       { path: "addAssets", element: <AddAssets /> },
       { path: "signin", element: <SignInPage /> },

@@ -11,6 +11,10 @@
 # production
 /build
 
+#rescript
+lib
+lib/bs
+
 # misc
 .DS_Store
 .env.local
